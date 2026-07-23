@@ -1,58 +1,133 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0f766e">
-  <title>環境監測現場助手 Professional</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0f5c5b" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>Environmental Field Assistant</title>
+  <style>
+    :root{--p:#0f5c5b;--p2:#0a4747;--bg:#f3f7f6;--card:#fff;--line:#d9e5e3;--text:#143332;--muted:#6a7d7b;--ok:#17814b;--warn:#c97700;--danger:#bd2c2c;--soft:#e8f3f1}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif}
+    button,input,select{font:inherit}
+    .app{max-width:560px;margin:auto;min-height:100dvh;padding:env(safe-area-inset-top) 12px calc(92px + env(safe-area-inset-bottom))}
+    header{padding:16px 4px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    h1{font-size:23px;margin:0;font-weight:900;letter-spacing:-.4px}.sub{font-size:13px;color:var(--muted);margin-top:3px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 5px 18px rgba(18,55,53,.06);margin-bottom:12px}
+    .hidden{display:none!important}.btn{border:0;border-radius:14px;min-height:50px;padding:12px 14px;font-weight:850;cursor:pointer}.primary{background:var(--p);color:white}.secondary{background:var(--soft);color:var(--p2)}.danger{background:#fff0f0;color:var(--danger)}.ghost{background:white;border:1px solid var(--line);color:var(--text)}
+    .full{width:100%}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field.fullrow{grid-column:1/-1}.field label{font-size:13px;font-weight:800;color:var(--muted)}
+    input,select{width:100%;height:48px;border:1px solid var(--line);border-radius:12px;background:white;padding:0 12px;font-size:18px;font-weight:750;color:var(--text)}
+    .section-title{font-weight:900;font-size:18px;margin:0 0 12px}.hint{font-size:12px;color:var(--muted);line-height:1.5}.notice{padding:11px 12px;border-radius:12px;background:#eef6f5;color:var(--p2);font-size:13px;line-height:1.45;margin-bottom:12px}
+    .case{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.case:last-child{border-bottom:0}.case-main{flex:1;min-width:0}.case-name{font-size:19px;font-weight:900}.meta{font-size:13px;color:var(--muted);margin-top:3px}.pill{font-size:12px;font-weight:900;border-radius:999px;padding:5px 9px;background:#eef2f1;color:var(--muted)}.pill.ok{background:#e7f7ed;color:var(--ok)}
+    .progress{height:8px;border-radius:999px;background:#e7efed;overflow:hidden;margin-top:8px}.progress>i{display:block;height:100%;background:var(--ok);width:0}
+    .topline{display:flex;align-items:center;gap:8px}.back{width:42px;height:42px;border-radius:13px;border:1px solid var(--line);background:white;font-size:22px}.spacer{flex:1}
+    .points{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.point{border:1px solid var(--line);background:white;border-radius:14px;padding:12px;text-align:left}.point.done{border-color:#9ed3b3;background:#f0fbf4}.point-id{font-weight:900;font-size:16px}.point-meta{margin-top:4px;font-size:12px;color:var(--muted)}
+    .hero{text-align:center}.hero-id{font-size:30px;font-weight:950;letter-spacing:-.5px}.count{margin-top:8px;font-size:15px;color:var(--muted)}.count b{color:var(--p);font-size:21px}
+    .actions{display:grid;gap:10px;margin-top:14px}.photo-input{display:none}.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.thumb{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:#e8eeee}.thumb img{width:100%;height:100%;object-fit:cover}.thumb button{position:absolute;right:4px;top:4px;width:28px;height:28px;border:0;border-radius:50%;background:rgba(175,25,25,.9);color:white;font-weight:900}
+    .bottom{position:fixed;left:0;right:0;bottom:0;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(243,247,246,.94);backdrop-filter:blur(14px);border-top:1px solid var(--line)}.bottom-inner{max-width:536px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .toast{position:fixed;left:50%;bottom:105px;transform:translate(-50%,15px);background:#173f3e;color:white;border-radius:999px;padding:10px 16px;font-weight:800;opacity:0;pointer-events:none;transition:.2s;z-index:20;max-width:90%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .empty{text-align:center;padding:30px 8px;color:var(--muted)}.empty b{display:block;color:var(--text);font-size:18px;margin-bottom:6px}
+    .export-info{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}.export-info b{font-size:20px}
+    @media(max-width:380px){.grid{grid-template-columns:1fr}.field.fullrow{grid-column:auto}.points{grid-template-columns:1fr}.hero-id{font-size:26px}}
+  </style>
 </head>
 <body>
-  <header class="topbar">
-    <div>
-      <h1>環境監測現場助手</h1>
-      <p>Professional V1｜照片管理核心版</p>
-    </div>
-    <button id="settingsBtn" class="icon-btn">⚙️</button>
-  </header>
+<div class="app">
+  <header><div><h1>Environmental Field Assistant</h1><div class="sub">手機現場照片分類助手</div></div></header>
 
-  <main id="app"></main>
+  <main id="homeView">
+    <section class="card">
+      <h2 class="section-title">案件</h2>
+      <div id="caseList"></div>
+    </section>
+    <button class="btn primary full" id="newCaseBtn">＋ 建立新案件</button>
+  </main>
 
-  <nav class="bottom-nav">
-    <button data-view="projects" class="active">📂<span>案件</span></button>
-    <button data-view="check">✅<span>檢查</span></button>
-    <button data-view="export">📦<span>匯出</span></button>
-  </nav>
-
-  <input id="photoInput" type="file" accept="image/*" multiple hidden>
-
-  <dialog id="modal">
-    <form method="dialog" id="modalForm">
-      <div id="modalBody"></div>
-      <div class="dialog-actions">
-        <button value="cancel" class="ghost">取消</button>
-        <button id="modalConfirm" value="default" class="primary">確定</button>
+  <main id="newCaseView" class="hidden">
+    <div class="topline"><button class="back" data-back>‹</button><h2>建立案件</h2></div>
+    <section class="card">
+      <div class="notice">輸入後會自動建立點位資料夾，例如：<b>11556W7-01</b>。</div>
+      <div class="grid">
+        <div class="field fullrow"><label>專案編號</label><input id="projectNo" inputmode="numeric" placeholder="11556" maxlength="20"></div>
+        <div class="field"><label>監測代碼</label><input id="monitorCode" value="W" autocapitalize="characters" maxlength="5"></div>
+        <div class="field"><label>次數（照輸入保留）</label><input id="occurrence" inputmode="numeric" placeholder="7" maxlength="10"></div>
+        <div class="field"><label>起始點位</label><input id="pointStart" inputmode="numeric" value="1"></div>
+        <div class="field"><label>結束點位</label><input id="pointEnd" inputmode="numeric" value="8"></div>
       </div>
-    </form>
-  </dialog>
+      <button class="btn primary full" id="createCaseBtn" style="margin-top:14px">建立案件</button>
+    </section>
+  </main>
 
-  <dialog id="photoViewer">
-    <div class="viewer-header">
-      <strong id="viewerTitle"></strong>
-      <button id="closeViewer" class="icon-btn">✕</button>
-    </div>
-    <div id="viewerGrid" class="photo-grid"></div>
-  </dialog>
+  <main id="caseView" class="hidden">
+    <div class="topline"><button class="back" data-back>‹</button><div><h2 id="caseTitle" style="margin:0"></h2><div class="sub" id="caseProgress"></div></div><div class="spacer"></div></div>
+    <section class="card"><div class="points" id="pointList"></div></section>
+    <section class="card">
+      <div class="export-info"><div><div class="hint">完成後直接寄到公司</div><b id="totalPhotos">0 張照片</b></div><span class="pill" id="completePill">進行中</span></div>
+      <button class="btn primary full" id="exportBtn">📦 匯出分類 ZIP</button>
+      <button class="btn danger full" id="deleteCaseBtn" style="margin-top:10px">刪除此案件</button>
+    </section>
+  </main>
 
-  <div id="toast" class="toast"></div>
+  <main id="pointView" class="hidden">
+    <div class="topline"><button class="back" data-back>‹</button><div class="spacer"></div><span class="pill" id="pointStatus">尚未完成</span></div>
+    <section class="card hero">
+      <div class="hero-id" id="pointTitle"></div>
+      <div class="count">已選取 <b id="photoCount">0</b> 張照片</div>
+      <div class="actions">
+        <button class="btn secondary full" id="timeCameraBtn">📷 開啟時間相機</button>
+        <label class="btn primary full" for="photoPicker">📥 選取剛拍的照片</label>
+        <input class="photo-input" id="photoPicker" type="file" accept="image/*" multiple>
+      </div>
+      <div class="thumbs" id="thumbs"></div>
+    </section>
+    <div class="hint" style="text-align:center">至少 1 張即視為完成，可隨時切換其他點位或案件。</div>
+  </main>
+</div>
 
-  <script src="js/jszip.min.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/project.js"></script>
-  <script src="js/photo.js"></script>
-  <script src="js/export.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/app.js"></script>
+<div class="bottom hidden" id="pointBottom"><div class="bottom-inner"><button class="btn ghost" id="pointListBtn">點位列表</button><button class="btn primary" id="nextPointBtn">完成／下一點</button></div></div>
+<div class="toast" id="toast"></div>
+<script src="jszip.min.js"></script>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const views=['homeView','newCaseView','caseView','pointView'];
+let currentCaseId=null,currentPointId=null,db=null;
+const stateKey='efa_cases_v1';
+const cases=()=>JSON.parse(localStorage.getItem(stateKey)||'[]');
+const saveCases=v=>localStorage.setItem(stateKey,JSON.stringify(v));
+const pad2=n=>String(n).padStart(2,'0');
+const toast=m=>{const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)};
+function show(id){views.forEach(v=>$(v).classList.toggle('hidden',v!==id));$('pointBottom').classList.toggle('hidden',id!=='pointView');window.scrollTo(0,0)}
+function openDB(){return new Promise((res,rej)=>{const r=indexedDB.open('efa_photos_v1',1);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains('photos')){const s=d.createObjectStore('photos',{keyPath:'id'});s.createIndex('casePoint','casePoint')}};r.onsuccess=()=>{db=r.result;res(db)};r.onerror=()=>rej(r.error)})}
+function tx(mode='readonly'){return db.transaction('photos',mode).objectStore('photos')}
+function getPhotos(casePoint){return new Promise((res,rej)=>{const r=tx().index('casePoint').getAll(casePoint);r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function putPhoto(o){return new Promise((res,rej)=>{const r=tx('readwrite').put(o);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+function deletePhoto(id){return new Promise((res,rej)=>{const r=tx('readwrite').delete(id);r.onsuccess=()=>res();r.onerror=()=>rej(r.error)})}
+async function deleteCasePhotos(caseId){for(const p of (await allPhotos()).filter(x=>x.caseId===caseId))await deletePhoto(p.id)}
+function allPhotos(){return new Promise((res,rej)=>{const r=tx().getAll();r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function getCase(){return cases().find(c=>c.id===currentCaseId)}
+function casePrefix(c){return `${c.project}${c.code}${c.occurrence}`}
+function pointFull(c,p){return `${casePrefix(c)}-${pad2(p.no)}`}
+async function countsFor(c){const ps=await allPhotos();const m={};ps.filter(x=>x.caseId===c.id).forEach(x=>m[x.pointId]=(m[x.pointId]||0)+1);return m}
+async function renderHome(){show('homeView');const list=$('caseList'),cs=cases();if(!cs.length){list.innerHTML='<div class="empty"><b>還沒有案件</b>先建立案件，再到各點位加入照片。</div>';return}list.innerHTML='';for(const c of cs){const counts=await countsFor(c),done=c.points.filter(p=>(counts[p.id]||0)>0).length,total=Object.values(counts).reduce((a,b)=>a+b,0),row=document.createElement('div');row.className='case';row.innerHTML=`<div class="case-main"><div class="case-name">${casePrefix(c)}</div><div class="meta">完成 ${done} / ${c.points.length}・${total} 張照片</div><div class="progress"><i style="width:${c.points.length?done/c.points.length*100:0}%"></i></div></div><span class="pill ${done===c.points.length?'ok':''}">${done===c.points.length?'完成':'繼續'}</span>`;row.onclick=()=>openCase(c.id);list.appendChild(row)}}
+async function openCase(id){currentCaseId=id;const c=getCase();if(!c)return renderHome();show('caseView');$('caseTitle').textContent=casePrefix(c);const counts=await countsFor(c),done=c.points.filter(p=>(counts[p.id]||0)>0).length,total=Object.values(counts).reduce((a,b)=>a+b,0);$('caseProgress').textContent=`完成 ${done} / ${c.points.length}`;$('totalPhotos').textContent=`${total} 張照片`;$('completePill').textContent=done===c.points.length?'全部完成':'進行中';$('completePill').className='pill '+(done===c.points.length?'ok':'');const pl=$('pointList');pl.innerHTML='';c.points.forEach(p=>{const n=counts[p.id]||0,b=document.createElement('button');b.className='point '+(n?'done':'');b.innerHTML=`<div class="point-id">${pointFull(c,p)}</div><div class="point-meta">${n?`✅ ${n} 張照片`:'尚未加入照片'}</div>`;b.onclick=()=>openPoint(p.id);pl.appendChild(b)})}
+async function openPoint(pointId){currentPointId=pointId;const c=getCase(),p=c.points.find(x=>x.id===pointId);show('pointView');$('pointTitle').textContent=pointFull(c,p);await renderPointPhotos()}
+async function renderPointPhotos(){const c=getCase(),photos=await getPhotos(`${c.id}:${currentPointId}`);$('photoCount').textContent=photos.length;$('pointStatus').textContent=photos.length?'已完成':'尚未完成';$('pointStatus').className='pill '+(photos.length?'ok':'');const box=$('thumbs');box.innerHTML='';photos.sort((a,b)=>a.created-b.created).forEach(ph=>{const d=document.createElement('div');d.className='thumb';const url=URL.createObjectURL(ph.blob);d.innerHTML=`<img src="${url}" alt=""><button aria-label="刪除">×</button>`;d.querySelector('img').onload=()=>URL.revokeObjectURL(url);d.querySelector('button').onclick=async()=>{if(confirm('移除這張照片？原始照片仍會留在 iPhone 相簿。')){await deletePhoto(ph.id);await renderPointPhotos()}};box.appendChild(d)})}
+$('newCaseBtn').onclick=()=>show('newCaseView');document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{if(!$('pointView').classList.contains('hidden'))openCase(currentCaseId);else renderHome()});
+$('createCaseBtn').onclick=()=>{const project=$('projectNo').value.trim(),code=$('monitorCode').value.trim().toUpperCase(),occ=$('occurrence').value.trim(),s=parseInt($('pointStart').value),e=parseInt($('pointEnd').value);if(!project||!code||!occ||!Number.isInteger(s)||!Number.isInteger(e)||s<0||e<s||e-s>99)return toast('請檢查案件與點位範圍');const id=crypto.randomUUID(),pts=[];for(let n=s;n<=e;n++)pts.push({id:crypto.randomUUID(),no:n});const cs=cases();cs.unshift({id,project,code,occurrence:occ,points:pts,created:Date.now()});saveCases(cs);$('projectNo').value='';currentCaseId=id;openCase(id)};
+$('photoPicker').onchange=async e=>{const files=[...e.target.files];if(!files.length)return;const c=getCase(),cp=`${c.id}:${currentPointId}`;toast(`正在加入 ${files.length} 張…`);for(const f of files){await putPhoto({id:crypto.randomUUID(),caseId:c.id,pointId:currentPointId,casePoint:cp,name:f.name||'photo.jpg',type:f.type||'image/jpeg',blob:f,created:Date.now()})}e.target.value='';await renderPointPhotos();toast('照片已分類')};
+$('timeCameraBtn').onclick=()=>{toast('請切換到「時間相機」拍照，拍完再回來選取');};
+$('pointListBtn').onclick=()=>openCase(currentCaseId);
+$('nextPointBtn').onclick=async()=>{const c=getCase(),photos=await getPhotos(`${c.id}:${currentPointId}`);if(!photos.length&&!confirm('目前沒有照片，仍要離開此點位嗎？'))return;const i=c.points.findIndex(p=>p.id===currentPointId),next=c.points.slice(i+1).find(Boolean);if(next)openPoint(next.id);else openCase(c.id)};
+$('deleteCaseBtn').onclick=async()=>{const c=getCase();if(!confirm(`確定刪除 ${casePrefix(c)}？助手內的分類照片也會移除，但不會刪除 iPhone 相簿原始照片。`))return;await deleteCasePhotos(c.id);saveCases(cases().filter(x=>x.id!==c.id));currentCaseId=null;renderHome()};
+$('exportBtn').onclick=async()=>{const c=getCase(),photos=(await allPhotos()).filter(x=>x.caseId===c.id);if(!photos.length)return toast('這個案件還沒有照片');const zip=new JSZip(),root=zip.folder(casePrefix(c));for(const p of c.points){const folder=root.folder(pointFull(c,p));const arr=photos.filter(x=>x.pointId===p.id).sort((a,b)=>a.created-b.created);arr.forEach((ph,i)=>{const ext=(ph.name.match(/\.[a-z0-9]+$/i)||['.jpg'])[0];folder.file(`${pointFull(c,p)}_${pad2(i+1)}${ext}`,ph.blob)})}toast('正在建立 ZIP…');try{const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:5}});const file=new File([blob],`${casePrefix(c)}.zip`,{type:'application/zip'});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({title:casePrefix(c),files:[file]})}else{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}toast('ZIP 已建立')}catch(err){if(err.name!=='AbortError')toast('ZIP 匯出失敗')}};
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+openDB().then(renderHome).catch(()=>alert('此瀏覽器無法開啟照片儲存空間，請使用 Safari 或 Chrome。'));
+})();
+</script>
 </body>
 </html>

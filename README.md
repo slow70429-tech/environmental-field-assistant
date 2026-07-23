@@ -1,22 +1,12 @@
-# Environmental Field Assistant Professional
+# Environmental Field Assistant V1
 
-環境監測現場助手 Professional V1
+手機專用的現場照片分類工具。
 
-## 目前功能
-- 多案號管理
-- 5 碼專案編號
-- 監測類型與點位數量
-- 次數完全保留輸入格式
-- 完整編號自動產生
-- 時間相機工作流程
-- 相簿照片導入
-- 預覽、刪除、移動照片
-- 完成狀態與缺照片檢查
-- ZIP 匯出
-- 手機本機離線暫存
+## 使用流程
+1. 建立案件與點位。
+2. 到點位後用「時間相機」拍照。
+3. 回助手選取剛拍的照片。
+4. 全部完成後匯出 ZIP，再用 Mail 分享到公司電腦。
 
 ## GitHub Pages
-將整個資料夾內容上傳到 Repository 根目錄。
-
-網址：
-https://slow70429-tech.github.io/environmental-field-assistant/
+將 ZIP 解壓縮後，把資料夾內全部檔案覆蓋到 `environmental-field-assistant` repository 最上層，提交並推送即可。
