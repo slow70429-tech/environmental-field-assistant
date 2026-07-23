@@ -1,12 +1,7 @@
-# Environmental Field Assistant V1
+# 環境監測照片助手 V1
 
-手機專用的現場照片分類工具。
+將全部檔案上傳到 GitHub repository 根目錄，再於 Settings → Pages 啟用 main / root。
 
-## 使用流程
-1. 建立案件與點位。
-2. 到點位後用「時間相機」拍照。
-3. 回助手選取剛拍的照片。
-4. 全部完成後匯出 ZIP，再用 Mail 分享到公司電腦。
+功能：多專案、多測項、照片多選、縮圖、紅綠狀態、IndexedDB 自動保存、離線 PWA、無資料夾 ZIP 匯出。
 
-## GitHub Pages
-將 ZIP 解壓縮後，把資料夾內全部檔案覆蓋到 `environmental-field-assistant` repository 最上層，提交並推送即可。
+注意：清除網站資料、使用無痕模式或系統極端儲存壓力仍可能移除瀏覽器本機資料。完成後請儘早匯出 ZIP，手機相簿原圖不會被刪除。
