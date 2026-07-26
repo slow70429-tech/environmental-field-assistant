@@ -15,7 +15,9 @@ body{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
  .actions{margin-top:8px}.badge{padding:4px 7px}.empty{padding:18px 6px}
 }
 
-/* V2.7：僅調整版本顯示與返回鍵尺寸，不更動功能 */
+/* V2.8：恢復主旨複製，返回鍵再放大 */
 .appVersion{display:inline-block;margin-left:6px;padding:2px 6px;border-radius:999px;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary);font-size:11px;font-weight:900;vertical-align:2px}
-#back{min-height:50px;min-width:112px;padding:13px 22px;font-size:17px;font-weight:900}
-@media(max-width:560px){.appVersion{font-size:10px;margin-left:4px;padding:2px 5px}#back{min-height:54px;min-width:128px;padding:14px 24px;font-size:18px}}
+#back{min-height:58px;min-width:142px;padding:16px 28px;font-size:19px;font-weight:900}
+@media(max-width:560px){.appVersion{font-size:10px;margin-left:4px;padding:2px 5px}#back{min-height:62px;min-width:156px;padding:17px 30px;font-size:20px}}
+
+.subjectBox{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}.subjectBox>div{display:grid;gap:4px;min-width:0}.subjectBox strong{font-size:16px;overflow-wrap:anywhere}.subjectBox .btn{flex:0 0 auto}@media(max-width:420px){.subjectBox{align-items:stretch;flex-direction:column}.subjectBox .btn{width:100%}}
